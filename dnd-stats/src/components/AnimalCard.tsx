@@ -44,12 +44,10 @@ export default function AnimalCard({
             {animal.currentHp} / {animal.maxHp}
           </div>
 
-          <div className="hp-bar">
-            <div
-              className={`hp-fill ${isDead ? 'dead' : ''}`}
-              style={{ width: `${Math.max(0, hpPercent)}%` }}
-            />
-          </div>
+          <div
+            className={`hp-bar ${isDead ? 'dead' : ''}`}
+            style={{ width: `${Math.max(0, hpPercent)}%` }}
+          />
 
           <div className="damage-section">
             <input
