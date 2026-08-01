@@ -1,16 +1,21 @@
 # Conjured Animals Tracker
 
-A React + TypeScript app for tracking D&D conjured creature stats during gameplay.
+A React + TypeScript app for tracking D&D conjured creature stats during gameplay with D&D Beyond-inspired aesthetics.
 
 ## Project Structure
 
 ```
 src/
-├── App.tsx                 # Main app component (state management)
+├── App.tsx                     # Main app component (state management)
 ├── components/
-│   ├── AnimalCard.tsx      # Individual animal card with HP tracking
-│   └── ImageModal.tsx      # Full-size stat block image viewer
-└── types.ts               # TypeScript interfaces
+│   ├── AnimalCard.tsx          # Individual animal card with HP tracking
+│   └── ImageModal.tsx          # Full-size stat block image viewer
+├── styles/
+│   ├── index.css              # Global styles and CSS variables
+│   ├── App.css                # App component styles
+│   ├── AnimalCard.css         # AnimalCard component styles
+│   └── ImageModal.css         # ImageModal component styles
+└── types.ts                    # TypeScript interfaces
 ```
 
 ## Components
@@ -60,13 +65,49 @@ interface ConjuredAnimal {
 }
 ```
 
+## CSS Architecture
+
+All styles are organized into separate `.css` files for maintainability:
+
+- **`styles/index.css`** — Global theme, CSS variables, and base styles
+  - Dark D&D Beyond-inspired color scheme
+  - Reusable CSS variables for consistent theming
+  - Global scrollbar and selection styling
+
+- **`styles/App.css`** — Main container and input form styles
+  - Layout, typography, form inputs
+  - Grid system for animal cards
+  - Responsive breakpoints
+
+- **`styles/AnimalCard.css`** — Individual card component styles
+  - Card design with borders and shadows
+  - HP bar and status indicators
+  - Button styles (damage, heal, remove)
+  - Animations and hover effects
+
+- **`styles/ImageModal.css`** — Full-screen image viewer modal
+  - Overlay backdrop
+  - Centered modal content
+  - Close button with animations
+
+### CSS Variables
+All colors and styling values use CSS variables defined in `index.css`:
+```css
+--bg-primary, --bg-secondary, --bg-tertiary
+--accent-red, --accent-green, --accent-gold
+--text-primary, --text-secondary
+--shadow-sm, --shadow-md, --shadow-lg
+```
+
 ## Setup
 
 ### Create React App
 ```bash
 npx create-react-app d-d-tracker --template typescript
 cd d-d-tracker
-# Copy all files into src/ (replacing App.tsx, index.tsx)
+rm src/App.css  # Remove default CSS file
+# Copy all files into src/ (replacing App.tsx)
+# Make sure styles/ folder is in src/
 npm start
 ```
 
@@ -76,7 +117,14 @@ npm create vite@latest d-d-tracker -- --template react-ts
 cd d-d-tracker
 npm install
 # Copy all files into src/
+# Make sure styles/ folder is in src/
 npm run dev
+```
+
+### Import global styles in index.tsx
+```tsx
+import './styles/index.css';
+import App from './App';
 ```
 
 ## Features

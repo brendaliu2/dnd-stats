@@ -1,0 +1,312 @@
+.animal-card {
+  background: var(--card-bg);
+  border: 3px solid var(--card-border);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.animal-card:hover {
+  border-color: var(--card-border-light);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+/* Image section */
+.card-image-section {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--surface-2) 0%, var(--surface-1) 100%);
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 3px solid var(--card-border);
+}
+
+.animal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.3s;
+  padding: 0.75rem;
+}
+
+.card-image-section:hover .animal-image {
+  transform: scale(1.08);
+}
+
+/* Image hover overlay */
+.card-image-section::after {
+  content: '🔍 Click to enlarge';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--accent-gold);
+  padding: 0.5rem;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-weight: 600;
+}
+
+.card-image-section:hover::after {
+  opacity: 1;
+}
+
+/* Content section */
+.card-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.animal-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--accent-gold);
+  font-family: var(--font-serif);
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+}
+
+/* HP Section */
+.hp-section {
+  margin-bottom: 1.5rem;
+}
+
+.hp-display {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.hp-display.at-max {
+  color: var(--accent-green);
+}
+
+.hp-display.low {
+  color: var(--accent-red-light);
+  animation: pulse-low 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-low {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.hp-display.dead {
+  color: var(--accent-red);
+}
+
+.hp-bar-container {
+  background: var(--surface-1);
+  border: 2px solid var(--card-border);
+  border-radius: 6px;
+  overflow: hidden;
+  height: 24px;
+  position: relative;
+}
+
+.hp-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-green), #059669);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+}
+
+.hp-bar.low {
+  background: linear-gradient(90deg, var(--accent-red-light), var(--accent-red));
+}
+
+.hp-bar.dead {
+  background: linear-gradient(90deg, #8b1528, #5a0f1b);
+  width: 0%;
+}
+
+.hp-bar-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Damage & Healing sections */
+.damage-section,
+.healing-section {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.damage-section input,
+.healing-section input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--card-border);
+  border-radius: 6px;
+  font-size: 16px;
+  background: var(--surface-2);
+  color: var(--text-primary);
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.damage-section input:focus,
+.healing-section input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.damage-section input:disabled,
+.healing-section input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--surface-1);
+}
+
+/* Action buttons */
+.btn-apply,
+.btn-heal {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-apply {
+  background: var(--accent-red);
+  color: var(--text-primary);
+}
+
+.btn-apply:hover:not(:disabled) {
+  background: var(--accent-red-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-apply:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-apply:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-heal {
+  background: var(--accent-green);
+  color: var(--text-primary);
+}
+
+.btn-heal:hover:not(:disabled) {
+  background: var(--accent-green-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-heal:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-heal:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Card footer */
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 2px solid var(--card-border);
+}
+
+.btn-danger {
+  background: var(--accent-red-dark);
+  color: var(--text-primary);
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-danger:hover {
+  background: var(--accent-red-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .animal-card {
+    border-width: 2px;
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
+
+  .animal-name {
+    font-size: 18px;
+  }
+
+  .hp-display {
+    font-size: 20px;
+  }
+
+  .damage-section,
+  .healing-section {
+    gap: 0.5rem;
+  }
+
+  .btn-apply,
+  .btn-heal {
+    padding: 0.65rem 1rem;
+    font-size: 12px;
+  }
+}

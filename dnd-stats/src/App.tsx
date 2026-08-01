@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import AnimalCard from './components/AnimalCard';
 import { ConjuredAnimal } from './types';
+import './styles/App.css';
 
 export default function ConjuredAnimalsTracker() {
   const [animals, setAnimals] = useState<ConjuredAnimal[]>([]);
   const [animalName, setAnimalName] = useState('');
   const [totalHp, setTotalHp] = useState('');
   const [damageInputs, setDamageInputs] = useState<Record<string, string>>({});
+  const [healingInputs, setHealingInputs] = useState<Record<string, string>>({});
   const [selectedImage, setSelectedImage] = useState<string>('');
 
   const addAnimal = () => {
@@ -56,11 +58,29 @@ export default function ConjuredAnimalsTracker() {
     setDamageInputs({ ...damageInputs, [id]: '' });
   };
 
+  const applyHealing = (id: string) => {
+    const healing = parseInt(healingInputs[id] || '0', 10);
+    if (isNaN(healing) || healing <= 0) return;
+
+    setAnimals(
+      animals.map(animal =>
+        animal.id === id
+          ? { ...animal, currentHp: Math.min(animal.maxHp, animal.currentHp + healing) }
+          : animal
+      )
+    );
+
+    setHealingInputs({ ...healingInputs, [id]: '' });
+  };
+
   const deleteAnimal = (id: string) => {
     setAnimals(animals.filter(animal => animal.id !== id));
     const newDamageInputs = { ...damageInputs };
     delete newDamageInputs[id];
     setDamageInputs(newDamageInputs);
+    const newHealingInputs = { ...healingInputs };
+    delete newHealingInputs[id];
+    setHealingInputs(newHealingInputs);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent, callback: () => void) => {
@@ -70,29 +90,10 @@ export default function ConjuredAnimalsTracker() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
-      <style>{`
-        * { box-sizing: border-box; }
-        body { font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); color: var(--text-primary); }
-        h1 { font-size: 28px; font-weight: 500; margin-bottom: 2rem; }
-        .input-section { display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: flex-end; }
-        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
-        label { font-size: 14px; font-weight: 500; color: var(--text-secondary); }
-        input { padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 16px; background: var(--surface-2); color: var(--text-primary); }
-        input:focus { outline: none; border-color: var(--border-strong); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
-        input[type="file"] { padding: 0.5rem; border: 1px dashed var(--border); cursor: pointer; }
-        button { border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        .btn-primary { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; font-size: 16px; border: none; }
-        .btn-primary:hover { background: #2563eb; }
-        .preview-section { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
-        .preview-image { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
-        .preview-label { font-size: 14px; color: var(--text-secondary); }
-        .animals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
-        .empty-state { text-align: center; padding: 3rem 2rem; color: var(--text-secondary); }
-        .empty-state p { font-size: 16px; }
-      `}</style>
-
-      <h1>astrid's summonings</h1>
+    <div className="app-container">
+      <div className="app-header">
+        <h1 className="app-title">Conjured Animals</h1>
+      </div>
 
       <div className="input-section">
         <div className="input-group" style={{ minWidth: '180px' }}>
@@ -156,6 +157,11 @@ export default function ConjuredAnimalsTracker() {
                 setDamageInputs({ ...damageInputs, [animal.id]: value })
               }
               onApplyDamage={applyDamage}
+              healingInput={healingInputs[animal.id] || ''}
+              onHealingInputChange={(value) =>
+                setHealingInputs({ ...healingInputs, [animal.id]: value })
+              }
+              onApplyHealing={applyHealing}
               onDelete={deleteAnimal}
             />
           ))}
