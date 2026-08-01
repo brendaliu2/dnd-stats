@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AnimalCard from './components/AnimalCard';
 import { ConjuredAnimal } from './types';
 import './styles/App.css';
+import creatureKey from './creatures/creaturesKey'
 
 export default function ConjuredAnimalsTracker() {
   const [animals, setAnimals] = useState<ConjuredAnimal[]>([]);
@@ -10,6 +11,7 @@ export default function ConjuredAnimalsTracker() {
   const [damageInputs, setDamageInputs] = useState<Record<string, string>>({});
   const [healingInputs, setHealingInputs] = useState<Record<string, string>>({});
   const [selectedImage, setSelectedImage] = useState<string>('');
+  const [showShortcuts, setShowShortcuts] = useState<boolean>(false)
 
   const addAnimal = () => {
     if (!animalName.trim() || !totalHp.trim()) return;
@@ -29,6 +31,24 @@ export default function ConjuredAnimalsTracker() {
     setAnimalName('');
     setTotalHp('');
     setSelectedImage('');
+  };
+
+  const addSetAnimal = (name: string) => {
+    const animalHp = creatureKey[name]['hp']
+    const animalImage = creatureKey[name]['image']
+    const newAnimal: ConjuredAnimal = {
+      id: Date.now().toString(),
+      name: name,
+      maxHp: animalHp,
+      currentHp: animalHp,
+      imageData: animalImage,
+    };
+
+    setAnimals([...animals, newAnimal]);
+  };  
+
+  const toggleShortcut = () => {
+    setShowShortcuts(prevIsOn => !prevIsOn);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,6 +153,10 @@ export default function ConjuredAnimalsTracker() {
         <button className="btn-primary" onClick={addAnimal}>
           add creature
         </button>
+
+        <button className="btn-primary" onClick={toggleShortcut}>
+          quick add
+        </button>
       </div>
 
       {selectedImage && (
@@ -141,6 +165,14 @@ export default function ConjuredAnimalsTracker() {
           <div className="preview-label">Screenshot preview</div>
         </div>
       )}
+
+      {showShortcuts && (
+        <div className="input-section">
+          <button className="btn-primary" onClick={() => addSetAnimal('dragon')}>
+            add dragon
+          </button>
+        </div>
+      )}      
 
       {animals.length === 0 ? (
         <div className="empty-state">
