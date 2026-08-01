@@ -1,6 +1,6 @@
 # Conjured Animals Tracker
 
-A React + TypeScript app for tracking D&D conjured creature stats so you don't have to do math.
+An app for tracking D&D conjured creature stats so you don't have to do math.
 
 ## Project Structure
 
