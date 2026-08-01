@@ -1,6 +1,6 @@
 # Conjured Animals Tracker
 
-A React + TypeScript app for tracking D&D conjured creature stats during gameplay with D&D Beyond-inspired aesthetics.
+A React + TypeScript app for tracking D&D conjured creature stats so you don't have to do math.
 
 ## Project Structure
 
@@ -99,26 +99,12 @@ All colors and styling values use CSS variables defined in `index.css`:
 --shadow-sm, --shadow-md, --shadow-lg
 ```
 
-## Setup
-
-### Create React App
-```bash
-npx create-react-app d-d-tracker --template typescript
-cd d-d-tracker
-rm src/App.css  # Remove default CSS file
-# Copy all files into src/ (replacing App.tsx)
-# Make sure styles/ folder is in src/
-npm start
-```
+## Run Locally
 
 ### Vite
 ```bash
-npm create vite@latest d-d-tracker -- --template react-ts
-cd d-d-tracker
 npm install
-# Copy all files into src/
-# Make sure styles/ folder is in src/
-npm run dev
+npm run start
 ```
 
 ### Import global styles in index.tsx
@@ -127,23 +113,6 @@ import './styles/index.css';
 import App from './App';
 ```
 
-## Features
-
-- ✅ Add multiple conjured creatures
-- ✅ Upload stat block screenshots
-- ✅ Track HP live with damage inputs
-- ✅ Visual HP bar with color changing
-- ✅ Click image to view full stat block
-- ✅ Remove creatures when dismissed
-- ✅ Responsive grid layout
-- ✅ Keyboard support (Enter to submit)
-
-## Usage
-
-1. **Add Creature**: Enter name, max HP, optionally upload stat block image
-2. **Track Damage**: Enter damage amount and click "Damage"
-3. **View Stats**: Click the image to open full-size stat block in modal
-4. **Remove**: Click "Remove" when creature is dismissed
 
 ## Styling
 
@@ -152,4 +121,3 @@ All components use CSS variables for theming:
 - `--border`, `--border-strong` - Border colors
 - `--text-primary`, `--text-secondary` - Text colors
 
-If using Claude.ai or a CSS variable-aware environment, styling adapts automatically.
