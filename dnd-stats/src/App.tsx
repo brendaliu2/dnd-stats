@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
-
-interface ConjuredAnimal {
-  id: string;
-  name: string;
-  maxHp: number;
-  currentHp: number;
-  imageData?: string;
-}
+import AnimalCard from './components/AnimalCard';
+import { ConjuredAnimal } from './types';
 
 export default function ConjuredAnimalsTracker() {
   const [animals, setAnimals] = useState<ConjuredAnimal[]>([]);
@@ -76,7 +70,7 @@ export default function ConjuredAnimalsTracker() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
       <style>{`
         * { box-sizing: border-box; }
         body { font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); color: var(--text-primary); }
@@ -84,39 +78,25 @@ export default function ConjuredAnimalsTracker() {
         .input-section { display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: flex-end; }
         .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
         label { font-size: 14px; font-weight: 500; color: var(--text-secondary); }
-        input { padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 16px; background: var(--surface-2); color: var(--text-primary); }
+        input { padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 16px; background: var(--surface-2); color: var(--text-primary); }
         input:focus { outline: none; border-color: var(--border-strong); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
         input[type="file"] { padding: 0.5rem; border: 1px dashed var(--border); cursor: pointer; }
-        .preview-section { display: flex; align-items: center; gap: 0.75rem; }
-        .preview-image { width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--border); }
-        .preview-label { font-size: 14px; color: var(--text-secondary); }
-        button { padding: 0.75rem 1.5rem; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        .btn-primary { background: #3b82f6; color: white; }
+        button { border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; font-size: 16px; border: none; }
         .btn-primary:hover { background: #2563eb; }
-        .btn-danger { background: #ef4444; color: white; padding: 0.5rem 1rem; font-size: 14px; }
-        .btn-danger:hover { background: #dc2626; }
-        .btn-apply { background: #10b981; color: white; padding: 0.5rem 1rem; font-size: 14px; }
-        .btn-apply:hover { background: #059669; }
-        .animals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-        .animal-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; }
-        .animal-image { width: 100%; max-height: 300px; object-fit: contain; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); }
-        .animal-name { font-size: 18px; font-weight: 500; margin-bottom: 0.5rem; }
-        .hp-display { font-size: 24px; font-weight: 500; color: #3b82f6; margin-bottom: 1rem; font-family: var(--font-mono, monospace); }
-        .hp-bar { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem; }
-        .hp-fill { height: 100%; background: #10b981; border-radius: 4px; transition: width 0.3s ease; }
-        .damage-section { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
-        .damage-section input { flex: 1; }
-        .card-footer { display: flex; justify-content: flex-end; }
+        .preview-section { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .preview-image { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
+        .preview-label { font-size: 14px; color: var(--text-secondary); }
+        .animals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
         .empty-state { text-align: center; padding: 3rem 2rem; color: var(--text-secondary); }
         .empty-state p { font-size: 16px; }
-      `}
-      </style>
+      `}</style>
 
-      <h1>Conjured animals</h1>
+      <h1>astrid's summonings</h1>
 
       <div className="input-section">
         <div className="input-group" style={{ minWidth: '180px' }}>
-          <label htmlFor="animal-name">Animal name</label>
+          <label htmlFor="animal-name">creature name</label>
           <input
             id="animal-name"
             type="text"
@@ -128,7 +108,7 @@ export default function ConjuredAnimalsTracker() {
         </div>
 
         <div className="input-group" style={{ minWidth: '140px' }}>
-          <label htmlFor="total-hp">Total HP</label>
+          <label htmlFor="total-hp">total HP</label>
           <input
             id="total-hp"
             type="number"
@@ -140,7 +120,7 @@ export default function ConjuredAnimalsTracker() {
         </div>
 
         <div className="input-group">
-          <label htmlFor="stat-block">Stat block (optional)</label>
+          <label htmlFor="stat-block">stat block (optional)</label>
           <input
             id="stat-block"
             type="file"
@@ -150,12 +130,12 @@ export default function ConjuredAnimalsTracker() {
         </div>
 
         <button className="btn-primary" onClick={addAnimal}>
-          Add animal
+          add creature
         </button>
       </div>
 
       {selectedImage && (
-        <div className="preview-section" style={{ marginBottom: '1.5rem' }}>
+        <div className="preview-section">
           <img src={selectedImage} alt="Preview" className="preview-image" />
           <div className="preview-label">Screenshot preview</div>
         </div>
@@ -167,64 +147,18 @@ export default function ConjuredAnimalsTracker() {
         </div>
       ) : (
         <div className="animals-grid">
-          {animals.map((animal) => {
-            const hpPercent = (animal.currentHp / animal.maxHp) * 100;
-            const isDead = animal.currentHp <= 0;
-
-            return (
-              <div key={animal.id} className="animal-card">
-                {animal.imageData && (
-                  <img src={animal.imageData} alt={animal.name} className="animal-image" />
-                )}
-                <div className="animal-name">{animal.name}</div>
-                <div
-                  className="hp-display"
-                  style={{ color: isDead ? '#ef4444' : '#3b82f6' }}
-                >
-                  {animal.currentHp} / {animal.maxHp}
-                </div>
-
-                <div className="hp-bar">
-                  <div
-                    className="hp-fill"
-                    style={{
-                      width: `${Math.max(0, hpPercent)}%`,
-                      background: isDead ? '#ef4444' : '#10b981',
-                    }}
-                  />
-                </div>
-
-                <div className="damage-section">
-                  <input
-                    type="number"
-                    placeholder="Damage"
-                    value={damageInputs[animal.id] || ''}
-                    onChange={(e) =>
-                      setDamageInputs({ ...damageInputs, [animal.id]: e.target.value })
-                    }
-                    onKeyPress={(e) => handleKeyPress(e, () => applyDamage(animal.id))}
-                    disabled={isDead}
-                  />
-                  <button
-                    className="btn-apply"
-                    onClick={() => applyDamage(animal.id)}
-                    disabled={isDead}
-                  >
-                    Damage
-                  </button>
-                </div>
-
-                <div className="card-footer">
-                  <button
-                    className="btn-danger"
-                    onClick={() => deleteAnimal(animal.id)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+          {animals.map((animal) => (
+            <AnimalCard
+              key={animal.id}
+              animal={animal}
+              damageInput={damageInputs[animal.id] || ''}
+              onDamageInputChange={(value) =>
+                setDamageInputs({ ...damageInputs, [animal.id]: value })
+              }
+              onApplyDamage={applyDamage}
+              onDelete={deleteAnimal}
+            />
+          ))}
         </div>
       )}
     </div>

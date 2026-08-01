@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# Conjured Animals Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React + TypeScript app for tracking D&D conjured creature stats during gameplay.
 
-## Available Scripts
+## Project Structure
 
-In the project directory, you can run:
+```
+src/
+├── App.tsx                 # Main app component (state management)
+├── components/
+│   ├── AnimalCard.tsx      # Individual animal card with HP tracking
+│   └── ImageModal.tsx      # Full-size stat block image viewer
+└── types.ts               # TypeScript interfaces
+```
 
-### `npm start`
+## Components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### `App.tsx`
+Main component that handles:
+- State management for all animals
+- Input form for adding new creatures
+- Image upload handling
+- Damage calculation logic
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Props:** None (root component)
 
-### `npm test`
+### `AnimalCard.tsx`
+Displays individual creature card with:
+- Creature image (clickable to open modal)
+- Creature name
+- HP display and visual HP bar
+- Damage input and apply button
+- Remove button
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Props:**
+- `animal: ConjuredAnimal` - Creature data
+- `damageInput: string` - Current damage input value
+- `onDamageInputChange: (value: string) => void` - Updates damage input
+- `onApplyDamage: (id: string) => void` - Applies damage
+- `onDelete: (id: string) => void` - Removes creature
 
-### `npm run build`
+### `ImageModal.tsx`
+Modal popup for viewing stat block at full size.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Props:**
+- `isOpen: boolean` - Whether modal is visible
+- `imageData: string` - Base64 image data
+- `animalName: string` - Creature name (for alt text)
+- `onClose: () => void` - Close callback
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `types.ts`
+Shared TypeScript interface:
+```typescript
+interface ConjuredAnimal {
+  id: string;
+  name: string;
+  maxHp: number;
+  currentHp: number;
+  imageData?: string;
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Setup
 
-### `npm run eject`
+### Create React App
+```bash
+npx create-react-app d-d-tracker --template typescript
+cd d-d-tracker
+# Copy all files into src/ (replacing App.tsx, index.tsx)
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Vite
+```bash
+npm create vite@latest d-d-tracker -- --template react-ts
+cd d-d-tracker
+npm install
+# Copy all files into src/
+npm run dev
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Features
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- ✅ Add multiple conjured creatures
+- ✅ Upload stat block screenshots
+- ✅ Track HP live with damage inputs
+- ✅ Visual HP bar with color changing
+- ✅ Click image to view full stat block
+- ✅ Remove creatures when dismissed
+- ✅ Responsive grid layout
+- ✅ Keyboard support (Enter to submit)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Usage
 
-## Learn More
+1. **Add Creature**: Enter name, max HP, optionally upload stat block image
+2. **Track Damage**: Enter damage amount and click "Damage"
+3. **View Stats**: Click the image to open full-size stat block in modal
+4. **Remove**: Click "Remove" when creature is dismissed
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Styling
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+All components use CSS variables for theming:
+- `--surface-1`, `--surface-2` - Background colors
+- `--border`, `--border-strong` - Border colors
+- `--text-primary`, `--text-secondary` - Text colors
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If using Claude.ai or a CSS variable-aware environment, styling adapts automatically.
