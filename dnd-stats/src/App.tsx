@@ -92,7 +92,7 @@ export default function ConjuredAnimalsTracker() {
   return (
     <div className="app-container">
       <div className="app-header">
-        <h1 className="app-title">Conjured Animals</h1>
+        <h1 className="app-title">conjured creatures</h1>
       </div>
 
       <div className="input-section">

@@ -48,11 +48,16 @@
 }
 
 .modal-image {
-  max-width: 100%;
-  height: auto;
+  /* max-width: 100%; */
+  /* height: auto; */
   border-radius: 8px;
   display: block;
   border: 2px solid var(--card-border);
+  max-height: 90vh;  /* Hard limit: never taller than 90% of screen */
+  max-width: 60vw;   /* Hard limit: never wider than 60% of screen */
+  width: auto;       
+  height: auto;
+  object-fit: contain;
 }
 
 .modal-close {
