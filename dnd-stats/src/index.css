@@ -56,7 +56,8 @@ html, body {
   padding: 0;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-sans);
+  /* font-family: var(--font-sans); */
+  font-family: var(--font-serif);
   line-height: 1.6;
 }
 

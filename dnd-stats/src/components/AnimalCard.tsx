@@ -52,7 +52,7 @@ export default function AnimalCard({
           <div className="damage-section">
             <input
               type="number"
-              placeholder="Damage amount"
+              placeholder="she's hurt"
               value={damageInput}
               onChange={(e) => onDamageInputChange(e.target.value)}
               onKeyPress={(e) => {
@@ -72,7 +72,7 @@ export default function AnimalCard({
           <div className="healing-section">
             <input
               type="number"
-              placeholder="Healing amount"
+              placeholder="she's healed"
               value={healingInput}
               onChange={(e) => onHealingInputChange(e.target.value)}
               onKeyPress={(e) => {

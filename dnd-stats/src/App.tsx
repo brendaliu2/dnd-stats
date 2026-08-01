@@ -101,7 +101,7 @@ export default function ConjuredAnimalsTracker() {
           <input
             id="animal-name"
             type="text"
-            placeholder="e.g., Wolf, Dire Bear"
+            placeholder="ex. adult red dragon"
             value={animalName}
             onChange={(e) => setAnimalName(e.target.value)}
             onKeyPress={(e) => handleKeyPress(e, addAnimal)}
@@ -113,7 +113,7 @@ export default function ConjuredAnimalsTracker() {
           <input
             id="total-hp"
             type="number"
-            placeholder="e.g., 60"
+            placeholder="ex. 60 million"
             value={totalHp}
             onChange={(e) => setTotalHp(e.target.value)}
             onKeyPress={(e) => handleKeyPress(e, addAnimal)}
@@ -144,7 +144,7 @@ export default function ConjuredAnimalsTracker() {
 
       {animals.length === 0 ? (
         <div className="empty-state">
-          <p>No conjured animals yet. Add one to get started.</p>
+          <p>let the conjuring begin!</p>
         </div>
       ) : (
         <div className="animals-grid">
