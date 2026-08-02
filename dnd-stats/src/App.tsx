@@ -46,6 +46,13 @@ export default function ConjuredAnimalsTracker() {
       currentHp: animalHp,
       imageData: animalImage,
     };
+  // todo: continue local storage route 
+    localStorage.setItem('animal', JSON.stringify(newAnimal))
+    const savedData = localStorage.getItem('animal')
+    if (savedData) {
+      const parsedData = JSON.parse(savedData)
+      console.log('parsed', parsedData)
+    }
 
     setAnimals([...animals, newAnimal]);
   };  
@@ -162,7 +169,7 @@ export default function ConjuredAnimalsTracker() {
         </button>
 
         <button className="btn-primary" onClick={toggleAnimalShortcut}>
-          animals
+          creatures
         </button>
         {/* <button className="btn-primary" onClick={toggleFeyShortcut}>
           fey

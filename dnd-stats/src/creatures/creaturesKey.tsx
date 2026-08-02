@@ -1,6 +1,8 @@
 import dragonImg from './images/adult-red-dragon.png';
 import constrictorSnakeImg from './images/constrictor-snake.png'
 import boarImg from './images/boar.png'
+import sabertoothImg from './images/saber-tooth-tiger.png'
+import giantEagle from './images/giant-eagle.png'
 
 interface Creature {
     name: string;
@@ -27,6 +29,18 @@ const animalKey: Array<Creature> = [
         "hp": 11,
         "challengeRating": 1/4,
         "image": boarImg
+    },
+    {
+        "name": "saber-tooth tiger",
+        "hp": 52,
+        "challengeRating": 2,
+        "image": sabertoothImg
+    },
+    {
+        "name": "giant eagle",
+        "hp": 26,
+        "challengeRating": 1,
+        "image": giantEagle
     },
 ];
 
