@@ -23,4 +23,6 @@ const creatureKey: Array<Creature> = [
     },
 ];
 
+creatureKey.sort((a, b) => a.challengeRating - b.challengeRating);
+
 export default creatureKey
