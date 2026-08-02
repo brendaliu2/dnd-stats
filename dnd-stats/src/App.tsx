@@ -164,9 +164,9 @@ export default function ConjuredAnimalsTracker() {
         <button className="btn-primary" onClick={toggleAnimalShortcut}>
           animals
         </button>
-        <button className="btn-primary" onClick={toggleFeyShortcut}>
+        {/* <button className="btn-primary" onClick={toggleFeyShortcut}>
           fey
-        </button>
+        </button> */}
       </div>
 
       {selectedImage && (
