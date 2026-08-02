@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AnimalCard from './components/AnimalCard';
+import CreatureButton from './components/CreatureButton'
 import { ConjuredAnimal } from './types';
 import './styles/App.css';
 import creatureKey from './creatures/creaturesKey'
@@ -33,12 +34,13 @@ export default function ConjuredAnimalsTracker() {
     setSelectedImage('');
   };
 
-  const addSetAnimal = (name: string) => {
-    const animalHp = creatureKey[name]['hp']
-    const animalImage = creatureKey[name]['image']
+  const addSetAnimal = (animal) => {
+    const animalName = animal['name']
+    const animalHp = animal['hp']
+    const animalImage = animal['image']
     const newAnimal: ConjuredAnimal = {
       id: Date.now().toString(),
-      name: name,
+      name: animalName,
       maxHp: animalHp,
       currentHp: animalHp,
       imageData: animalImage,
@@ -168,9 +170,13 @@ export default function ConjuredAnimalsTracker() {
 
       {showShortcuts && (
         <div className="input-section">
-          <button className="btn-primary" onClick={() => addSetAnimal('dragon')}>
-            add dragon
-          </button>
+          {creatureKey.map((animal) => (
+            <CreatureButton
+              key={animal[name]} 
+              animal={animal}
+              onaddSetAnimal={() => addSetAnimal(animal)}
+            />
+          ))}
         </div>
       )}      
 
