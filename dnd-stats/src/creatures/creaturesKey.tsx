@@ -1,5 +1,6 @@
 import dragonImg from './images/adult-red-dragon.png';
 import constrictorSnakeImg from './images/constrictor-snake.png'
+import boarImg from './images/boar.png'
 
 interface Creature {
     name: string;
@@ -8,7 +9,7 @@ interface Creature {
     image: string; // or your specific image type
 }
 
-const creatureKey: Array<Creature> = [
+const animalKey: Array<Creature> = [
     {
         "name": "adult red dragon",
         "hp": 256,
@@ -21,8 +22,23 @@ const creatureKey: Array<Creature> = [
         "challengeRating": 1/4,
         "image": constrictorSnakeImg
     },
+    {
+        "name": "boar",
+        "hp": 11,
+        "challengeRating": 1/4,
+        "image": boarImg
+    },
 ];
 
-creatureKey.sort((a, b) => a.challengeRating - b.challengeRating);
+const feyKey: Array<Creature> = [
+    {
+        "name": "adult red dragon",
+        "hp": 256,
+        "challengeRating": 17,
+        "image": dragonImg
+    }
+];
 
-export default creatureKey
+animalKey.sort((a, b) => a.challengeRating - b.challengeRating);
+
+export {animalKey, feyKey}

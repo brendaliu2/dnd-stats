@@ -3,7 +3,7 @@ import AnimalCard from './components/AnimalCard';
 import CreatureButton from './components/CreatureButton'
 import { ConjuredAnimal } from './types';
 import './styles/App.css';
-import creatureKey from './creatures/creaturesKey'
+import {animalKey, feyKey} from './creatures/creaturesKey'
 
 export default function ConjuredAnimalsTracker() {
   const [animals, setAnimals] = useState<ConjuredAnimal[]>([]);
@@ -12,7 +12,8 @@ export default function ConjuredAnimalsTracker() {
   const [damageInputs, setDamageInputs] = useState<Record<string, string>>({});
   const [healingInputs, setHealingInputs] = useState<Record<string, string>>({});
   const [selectedImage, setSelectedImage] = useState<string>('');
-  const [showShortcuts, setShowShortcuts] = useState<boolean>(false)
+  const [showAnimalShortcut, setshowAnimalShortcut] = useState<boolean>(false)
+  const [showFeyShortcut, setshowFeyShortcut] = useState<boolean>(false)
 
   const addAnimal = () => {
     if (!animalName.trim() || !totalHp.trim()) return;
@@ -49,8 +50,12 @@ export default function ConjuredAnimalsTracker() {
     setAnimals([...animals, newAnimal]);
   };  
 
-  const toggleShortcut = () => {
-    setShowShortcuts(prevIsOn => !prevIsOn);
+  const toggleAnimalShortcut = () => {
+    setshowAnimalShortcut(prevIsOn => !prevIsOn);
+  };
+
+  const toggleFeyShortcut = () => {
+    setshowFeyShortcut(prevIsOn => !prevIsOn);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,8 +161,11 @@ export default function ConjuredAnimalsTracker() {
           add creature
         </button>
 
-        <button className="btn-primary" onClick={toggleShortcut}>
-          quick add
+        <button className="btn-primary" onClick={toggleAnimalShortcut}>
+          animals
+        </button>
+        <button className="btn-primary" onClick={toggleFeyShortcut}>
+          fey
         </button>
       </div>
 
@@ -168,9 +176,9 @@ export default function ConjuredAnimalsTracker() {
         </div>
       )}
 
-      {showShortcuts && (
+      {showAnimalShortcut && (
         <div className="input-section">
-          {creatureKey.map((animal) => (
+          {animalKey.map((animal) => (
             <CreatureButton
               key={animal[name]} 
               animal={animal}
@@ -178,7 +186,18 @@ export default function ConjuredAnimalsTracker() {
             />
           ))}
         </div>
-      )}      
+      )}   
+      {showFeyShortcut && (
+        <div className="input-section">
+          {feyKey.map((animal) => (
+            <CreatureButton
+              key={animal[name]} 
+              animal={animal}
+              onaddSetAnimal={() => addSetAnimal(animal)}
+            />
+          ))}
+        </div>
+      )}       
 
       {animals.length === 0 ? (
         <div className="empty-state">
