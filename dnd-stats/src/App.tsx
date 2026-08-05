@@ -9,6 +9,7 @@ export default function ConjuredAnimalsTracker() {
   const [animals, setAnimals] = useState<ConjuredAnimal[]>([]);
   const [animalName, setAnimalName] = useState('');
   const [totalHp, setTotalHp] = useState('');
+  const [quantity, setQuantity] = useState('');
   const [damageInputs, setDamageInputs] = useState<Record<string, string>>({});
   const [healingInputs, setHealingInputs] = useState<Record<string, string>>({});
   const [selectedImage, setSelectedImage] = useState<string>('');
@@ -21,17 +22,26 @@ export default function ConjuredAnimalsTracker() {
     const hp = parseInt(totalHp, 10);
     if (isNaN(hp) || hp <= 0) return;
 
-    const newAnimal: ConjuredAnimal = {
-      id: Date.now().toString(),
-      name: animalName,
-      maxHp: hp,
-      currentHp: hp,
-      imageData: selectedImage || undefined,
-    };
+    let newAnimals = animals
+    let i: number = 0;
+    while (i < quantity) {
+      console.log('quantity', quantity)
+      const newAnimal: ConjuredAnimal = {
+        id: Date.now().toString(),
+        name: animalName,
+        maxHp: hp,
+        currentHp: hp,
+        imageData: selectedImage || undefined,
+      };
+      
+      newAnimals.push(newAnimal)
+      i++
+    }
 
-    setAnimals([...animals, newAnimal]);
+    setAnimals(newAnimals)
     setAnimalName('');
     setTotalHp('');
+    setQuantity('');
     setSelectedImage('');
   };
 
@@ -154,6 +164,18 @@ export default function ConjuredAnimalsTracker() {
           />
         </div>
 
+        <div className="input-group" style={{ minWidth: '140px' }}>
+          <label htmlFor="total-hp">quantity</label>
+          <input
+            id="quantity"
+            type="number"
+            placeholder="ex. 4 thousand"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            onKeyPress={(e) => handleKeyPress(e, addAnimal)}
+          />
+        </div>
+
         <div className="input-group">
           <label htmlFor="stat-block">stat block (optional)</label>
           <input
@@ -163,6 +185,7 @@ export default function ConjuredAnimalsTracker() {
             onChange={handleImageUpload}
           />
         </div>
+
 
         <button className="btn-primary" onClick={addAnimal}>
           add creature
