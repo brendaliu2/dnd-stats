@@ -13,6 +13,7 @@ export default function ConjuredAnimalsTracker() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [animalName, setAnimalName] = useState('');
   const [totalHp, setTotalHp] = useState('');
+  const [hitDie, setHitDie] = useState('');
   const [quantity, setQuantity] = useState('');
   const [damageInputs, setDamageInputs] = useState<Record<string, string>>({});
   const [healingInputs, setHealingInputs] = useState<Record<string, string>>({});
@@ -40,8 +41,12 @@ export default function ConjuredAnimalsTracker() {
   const addAnimal = () => {
     if (!animalName.trim() || !totalHp.trim()) return;
 
-    const hp = parseInt(totalHp, 10);
+    let hp = parseInt(totalHp, 10);
     if (isNaN(hp) || hp <= 0) return;
+
+    if (isDruid) {
+      hp = hp + (2*hitDie)
+    }
 
     let newAnimals = [...animals]
     let i: number = 0;
@@ -61,6 +66,7 @@ export default function ConjuredAnimalsTracker() {
     setAnimals(newAnimals)
     setAnimalName('');
     setTotalHp('');
+    setHitDie('')
     setQuantity('');
     setSelectedImage('');
   };
@@ -158,16 +164,20 @@ export default function ConjuredAnimalsTracker() {
         <h1 className="app-title">conjured creatures</h1>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: '18px' }}>
-        <div className="input-group" style={{ minWidth: '18px' }}>
-          <label className="input-group" htmlFor="animal-name">are u a circle of the shepherd druid that talks to herself?</label>
-        </div>
-          <input
-            type="checkbox"
-            checked={isDruid}
-            onChange={handleCheckboxChange}
-          />
+    <div className="checkbox-group">
+      <label htmlFor="animal-name">
+        are u a circle of the shepherd druid that talks to herself?
+      </label>
+      <div className="custom-checkbox">
+        <input
+          id="animal-name"
+          type="checkbox"
+          checked={isDruid}
+          onChange={handleCheckboxChange}
+        />
+        <span className="checkmark"></span>
       </div>
+    </div>
 
       <div className="input-section">
         <div className="input-group" style={{ minWidth: '180px' }}>
@@ -182,7 +192,7 @@ export default function ConjuredAnimalsTracker() {
           />
         </div>
 
-        <div className="input-group" style={{ minWidth: '140px' }}>
+        <div className="input-group" style={{ minWidth: '140px'}}>
           <label htmlFor="total-hp">total HP</label>
           <input
             id="total-hp"
@@ -193,13 +203,27 @@ export default function ConjuredAnimalsTracker() {
             onKeyPress={(e) => handleKeyPress(e, addAnimal)}
           />
         </div>
+        
+        {isDruid && (
+        <div className="input-group" style={{ minWidth: '140px'}}>
+          <label htmlFor="hit-die">hit die</label>
+          <input
+            id="hitDie"
+            type="number"
+            placeholder="ex. 2"
+            value={hitDie}
+            onChange={(e) => setHitDie(e.target.value)}
+            onKeyPress={(e) => handleKeyPress(e, addAnimal)}
+          />
+        </div>
+        )}
 
-        <div className="input-group" style={{ minWidth: '140px' }}>
-          <label htmlFor="total-hp">quantity</label>
+        <div className="input-group" style={{ minWidth: '140px'}}>
+          <label htmlFor="quantity">quantity</label>
           <input
             id="quantity"
             type="number"
-            placeholder="ex. 4 thousand"
+            placeholder="ex. 427"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             onKeyPress={(e) => handleKeyPress(e, addAnimal)}

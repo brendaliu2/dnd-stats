@@ -85,6 +85,48 @@
   background: var(--accent-red-light);
 }
 
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0;
+  position: relative;
+}
+
+.checkbox-group label {
+  font-size: 12px;
+  font-weight: 600;
+  /* text-transform: uppercase; */
+  letter-spacing: 0.5px;
+  color: var(--accent-gold);
+}
+
+.checkbox-group input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.checkmark {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--card-border);
+  background: transparent;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox-group input[type="checkbox"]:checked ~ .checkmark {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+
 .btn-primary {
   background: var(--accent-red);
   color: var(--text-primary);
@@ -157,6 +199,7 @@
   font-size: 18px;
   margin: 0;
 }
+
 
 /* Responsive */
 @media (max-width: 768px) {
