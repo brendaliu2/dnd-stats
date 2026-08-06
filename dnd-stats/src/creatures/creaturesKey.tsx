@@ -3,6 +3,7 @@ import constrictorSnakeImg from './images/constrictor-snake.png'
 import boarImg from './images/boar.png'
 import sabertoothImg from './images/saber-tooth-tiger.png'
 import giantEagle from './images/giant-eagle.png'
+import giantConstrictorSnake from './images/giant-constrictor-snake.png'
 
 interface Creature {
     name: string;
@@ -13,13 +14,13 @@ interface Creature {
 }
 
 const animalKey: Array<Creature> = [
-    {
-        "name": "adult red dragon",
-        "hp": 256,
-        "hitDie": 19,
-        "challengeRating": 17,
-        "image": dragonImg
-    },
+    // {
+    //     "name": "adult red dragon",
+    //     "hp": 256,
+    //     "hitDie": 19,
+    //     "challengeRating": 17,
+    //     "image": dragonImg
+    // },
     {
         "name": "constrictor snake",
         "hp": 13,
@@ -47,6 +48,13 @@ const animalKey: Array<Creature> = [
         "hitDie": 4,
         "challengeRating": 1,
         "image": giantEagle
+    },
+    {
+        "name": "giant constrictor snake",
+        "hp": 60,
+        "hitDie": 8,
+        "challengeRating": 2,
+        "image": giantConstrictorSnake
     },
 ];
 
