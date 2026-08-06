@@ -14,13 +14,13 @@ interface Creature {
 }
 
 const animalKey: Array<Creature> = [
-    // {
-    //     "name": "adult red dragon",
-    //     "hp": 256,
-    //     "hitDie": 19,
-    //     "challengeRating": 17,
-    //     "image": dragonImg
-    // },
+    {
+        "name": "adult red dragon",
+        "hp": 256,
+        "hitDie": 19,
+        "challengeRating": 17,
+        "image": dragonImg
+    },
     {
         "name": "constrictor snake",
         "hp": 13,
@@ -58,15 +58,6 @@ const animalKey: Array<Creature> = [
     },
 ];
 
-const feyKey: Array<Creature> = [
-    {
-        "name": "adult red dragon",
-        "hp": 256,
-        "challengeRating": 17,
-        "image": dragonImg
-    }
-];
-
 animalKey.sort((a, b) => a.challengeRating - b.challengeRating);
 
-export {animalKey, feyKey}
+export {animalKey}

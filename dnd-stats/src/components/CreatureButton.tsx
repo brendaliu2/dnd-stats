@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import ImageModal from './ImageModel';
-import { ConjuredAnimal } from '../types';
+import { SavedAnimal } from '../types';
 import '../styles/AnimalCard.css';
 
 interface CreatureButtonProps {
-  animal: ConjuredAnimal;
+  animal: SavedAnimal;
+  onaddSetAnimal: (value: SavedAnimal) => void
 }
 
 export default function CreatureButton({
@@ -12,9 +11,7 @@ export default function CreatureButton({
   onaddSetAnimal
 }: CreatureButtonProps) {
 const name = animal['name']
-const hp = animal['hp']
 const challengeRating = animal['challengeRating']
-const image = animal['image']
 const displayName = `${name} (${challengeRating})`
 
   return (

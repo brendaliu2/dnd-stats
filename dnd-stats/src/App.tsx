@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AnimalCard from './components/AnimalCard';
 import CreatureButton from './components/CreatureButton'
-import { ConjuredAnimal } from './types';
+import { ConjuredAnimal, SavedAnimal } from './types';
 import './styles/App.css';
-import {animalKey, feyKey} from './creatures/creaturesKey'
+import {animalKey} from './creatures/creaturesKey'
 import { v4 as uuidv4 } from 'uuid';
 import { get, set } from 'idb-keyval';
 
@@ -13,13 +13,12 @@ export default function ConjuredAnimalsTracker() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [animalName, setAnimalName] = useState('');
   const [totalHp, setTotalHp] = useState('');
-  const [hitDie, setHitDie] = useState('');
-  const [quantity, setQuantity] = useState('');
+  const [hitDie, setHitDie] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
   const [damageInputs, setDamageInputs] = useState<Record<string, string>>({});
   const [healingInputs, setHealingInputs] = useState<Record<string, string>>({});
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [showAnimalShortcut, setshowAnimalShortcut] = useState<boolean>(false)
-  const [showFeyShortcut, setshowFeyShortcut] = useState<boolean>(false)
   const [isDruid, setisDruid] = useState(false);
 
   //load animals on refresh
@@ -47,7 +46,7 @@ export default function ConjuredAnimalsTracker() {
     if (isNaN(hp) || hp <= 0) return;
 
     if (isDruid) {
-      hp = hp + (2*hitDie)
+      hp = hp + (hitDie*2)
     }
 
     let newAnimals = [...animals]
@@ -70,24 +69,24 @@ export default function ConjuredAnimalsTracker() {
     setAnimals(newAnimals)
     setAnimalName('');
     setTotalHp('');
-    setHitDie('')
-    setQuantity('');
+    setHitDie(0)
+    setQuantity(1);
     setSelectedImage('');
   };
 
 
-  const addSetAnimal = (animal) => {
+  const addSetAnimal = (animal:SavedAnimal) => {
     const animalName = animal['name']
     const animalHp = animal['hp']
-    const animalHitDie = animal['hitDie']
+    const animalHitDie: number = animal['hitDie']
     const animalImage = animal['image']
     const currAnimalCount = animals.filter(animal => animal.name === animalName).length + 1
     const newAnimal: ConjuredAnimal = {
       id: uuidv4(),
       name: animalName,
       count: currAnimalCount,
-      maxHp: isDruid ? animalHp + (2*animalHitDie) : animalHp,
-      currentHp: isDruid ? animalHp + (2*animalHitDie) : animalHp,
+      maxHp: isDruid ? animalHp + (animalHitDie*2) : animalHp,
+      currentHp: isDruid ? animalHp + (animalHitDie*2) : animalHp,
       imageData: animalImage,
     };
 
@@ -96,10 +95,6 @@ export default function ConjuredAnimalsTracker() {
 
   const toggleAnimalShortcut = () => {
     setshowAnimalShortcut(prevIsOn => !prevIsOn);
-  };
-
-  const toggleFeyShortcut = () => {
-    setshowFeyShortcut(prevIsOn => !prevIsOn);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,8 +155,8 @@ export default function ConjuredAnimalsTracker() {
     }
   };
 
-  const handleCheckboxChange = (event) => {
-    setisDruid(event.target.checked);
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setisDruid(e.target.checked);
   };
 
   return (
@@ -218,7 +213,7 @@ export default function ConjuredAnimalsTracker() {
             type="number"
             placeholder="ex. 2"
             value={hitDie}
-            onChange={(e) => setHitDie(e.target.value)}
+            onChange={(e) => setHitDie(+e.target.value)}
             onKeyPress={(e) => handleKeyPress(e, addAnimal)}
           />
         </div>
@@ -231,7 +226,7 @@ export default function ConjuredAnimalsTracker() {
             type="number"
             placeholder="ex. 427"
             value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={(e) => setQuantity(+e.target.value)}
             onKeyPress={(e) => handleKeyPress(e, addAnimal)}
           />
         </div>
@@ -254,9 +249,6 @@ export default function ConjuredAnimalsTracker() {
         <button className="btn-primary" onClick={toggleAnimalShortcut}>
           creatures
         </button>
-        {/* <button className="btn-primary" onClick={toggleFeyShortcut}>
-          fey
-        </button> */}
       </div>
 
       {selectedImage && (
@@ -270,24 +262,13 @@ export default function ConjuredAnimalsTracker() {
         <div className="input-section">
           {animalKey.map((animal) => (
             <CreatureButton
-              key={animal[name]} 
+              key={animal.name} 
               animal={animal}
               onaddSetAnimal={() => addSetAnimal(animal)}
             />
           ))}
         </div>
-      )}   
-      {showFeyShortcut && (
-        <div className="input-section">
-          {feyKey.map((animal) => (
-            <CreatureButton
-              key={animal[name]} 
-              animal={animal}
-              onaddSetAnimal={() => addSetAnimal(animal)}
-            />
-          ))}
-        </div>
-      )}       
+      )}    
 
       {animals.length === 0 ? (
         <div className="empty-state">
