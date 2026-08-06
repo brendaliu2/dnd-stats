@@ -7,11 +7,8 @@ import {animalKey, feyKey} from './creatures/creaturesKey'
 import { v4 as uuidv4 } from 'uuid';
 import { get, set } from 'idb-keyval';
 
+
 export default function ConjuredAnimalsTracker() {
-  // const [animals, setAnimals] = useState<ConjuredAnimal[]>(() => {
-  //   const saved = localStorage.getItem('animals');
-  //   return saved ? JSON.parse(saved) : [];
-  // });
   const [animals, setAnimals] = useState<ConjuredAnimal[]>([])
   const [isLoaded, setIsLoaded] = useState(false);
   const [animalName, setAnimalName] = useState('');
@@ -22,11 +19,9 @@ export default function ConjuredAnimalsTracker() {
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [showAnimalShortcut, setshowAnimalShortcut] = useState<boolean>(false)
   const [showFeyShortcut, setshowFeyShortcut] = useState<boolean>(false)
-  console.log('animals', animals)
-  // useEffect(() => {
-  //   localStorage.setItem('animals', JSON.stringify(animals));
-  // }, [animals]); 
+  const [isDruid, setisDruid] = useState(false);
 
+  //load animals on refresh
   useEffect(() => {
     get('animals').then(val => {
       if (val) setAnimals(val);
@@ -34,9 +29,8 @@ export default function ConjuredAnimalsTracker() {
     setIsLoaded(true); 
   }, []);
 
-  // Save on change
+  //update animals when changed
   useEffect(() => {
-      // ONLY save if the initial load step has fully completed
       if (isLoaded) {
         set('animals', animals).catch((err) => console.error("IndexedDB Save Error:", err));
       }
@@ -75,12 +69,13 @@ export default function ConjuredAnimalsTracker() {
   const addSetAnimal = (animal) => {
     const animalName = animal['name']
     const animalHp = animal['hp']
+    const animalHitDie = animal['hitDie']
     const animalImage = animal['image']
     const newAnimal: ConjuredAnimal = {
       id: uuidv4(),
       name: animalName,
-      maxHp: animalHp,
-      currentHp: animalHp,
+      maxHp: isDruid ? animalHp + (2*animalHitDie) : animalHp,
+      currentHp: isDruid ? animalHp + (2*animalHitDie) : animalHp,
       imageData: animalImage,
     };
 
@@ -153,10 +148,25 @@ export default function ConjuredAnimalsTracker() {
     }
   };
 
+  const handleCheckboxChange = (event) => {
+    setisDruid(event.target.checked);
+  };
+
   return (
     <div className="app-container">
       <div className="app-header">
         <h1 className="app-title">conjured creatures</h1>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: '18px' }}>
+        <div className="input-group" style={{ minWidth: '18px' }}>
+          <label className="input-group" htmlFor="animal-name">are u a circle of the shepherd druid that talks to herself?</label>
+        </div>
+          <input
+            type="checkbox"
+            checked={isDruid}
+            onChange={handleCheckboxChange}
+          />
       </div>
 
       <div className="input-section">
