@@ -4,6 +4,7 @@ import CreatureButton from './components/CreatureButton'
 import { ConjuredAnimal } from './types';
 import './styles/App.css';
 import {animalKey, feyKey} from './creatures/creaturesKey'
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ConjuredAnimalsTracker() {
   const [animals, setAnimals] = useState<ConjuredAnimal[]>(() => {
@@ -29,12 +30,11 @@ export default function ConjuredAnimalsTracker() {
     const hp = parseInt(totalHp, 10);
     if (isNaN(hp) || hp <= 0) return;
 
-    let newAnimals = animals
+    let newAnimals = [...animals]
     let i: number = 0;
     while (i < quantity) {
-      console.log('quantity', quantity)
       const newAnimal: ConjuredAnimal = {
-        id: Date.now().toString(),
+        id: uuidv4(),
         name: animalName,
         maxHp: hp,
         currentHp: hp,
@@ -58,7 +58,7 @@ export default function ConjuredAnimalsTracker() {
     const animalHp = animal['hp']
     const animalImage = animal['image']
     const newAnimal: ConjuredAnimal = {
-      id: Date.now().toString(),
+      id: uuidv4(),
       name: animalName,
       maxHp: animalHp,
       currentHp: animalHp,
