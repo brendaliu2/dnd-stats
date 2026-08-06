@@ -304,11 +304,14 @@
 
   .damage-section,
   .healing-section {
+    display: flex;
+    flex-direction: column;
     gap: 0.5rem;
   }
 
   .btn-apply,
   .btn-heal {
+    width: 100%;
     padding: 0.65rem 1rem;
     font-size: 12px;
   }
