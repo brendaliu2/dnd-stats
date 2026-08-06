@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "idb-keyval": "^6.3.0",
     "uuid": "^14.0.1"
   }
 }

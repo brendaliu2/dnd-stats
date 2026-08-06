@@ -5,12 +5,15 @@ import { ConjuredAnimal } from './types';
 import './styles/App.css';
 import {animalKey, feyKey} from './creatures/creaturesKey'
 import { v4 as uuidv4 } from 'uuid';
+import { get, set } from 'idb-keyval';
 
 export default function ConjuredAnimalsTracker() {
-  const [animals, setAnimals] = useState<ConjuredAnimal[]>(() => {
-    const saved = localStorage.getItem('animals');
-    return saved ? JSON.parse(saved) : [];
-  });
+  // const [animals, setAnimals] = useState<ConjuredAnimal[]>(() => {
+  //   const saved = localStorage.getItem('animals');
+  //   return saved ? JSON.parse(saved) : [];
+  // });
+  const [animals, setAnimals] = useState<ConjuredAnimal[]>([])
+  const [isLoaded, setIsLoaded] = useState(false);
   const [animalName, setAnimalName] = useState('');
   const [totalHp, setTotalHp] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -19,10 +22,26 @@ export default function ConjuredAnimalsTracker() {
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [showAnimalShortcut, setshowAnimalShortcut] = useState<boolean>(false)
   const [showFeyShortcut, setshowFeyShortcut] = useState<boolean>(false)
+  console.log('animals', animals)
+  // useEffect(() => {
+  //   localStorage.setItem('animals', JSON.stringify(animals));
+  // }, [animals]); 
 
   useEffect(() => {
-    localStorage.setItem('animals', JSON.stringify(animals));
-  }, [animals]); 
+    get('animals').then(val => {
+      if (val) setAnimals(val);
+    });
+    setIsLoaded(true); 
+  }, []);
+
+  // Save on change
+  useEffect(() => {
+      // ONLY save if the initial load step has fully completed
+      if (isLoaded) {
+        set('animals', animals).catch((err) => console.error("IndexedDB Save Error:", err));
+      }
+    }, [animals, isLoaded]);
+
 
   const addAnimal = () => {
     if (!animalName.trim() || !totalHp.trim()) return;
