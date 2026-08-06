@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AnimalCard from './components/AnimalCard';
 import CreatureButton from './components/CreatureButton'
 import { ConjuredAnimal } from './types';
@@ -6,7 +6,10 @@ import './styles/App.css';
 import {animalKey, feyKey} from './creatures/creaturesKey'
 
 export default function ConjuredAnimalsTracker() {
-  const [animals, setAnimals] = useState<ConjuredAnimal[]>([]);
+  const [animals, setAnimals] = useState<ConjuredAnimal[]>(() => {
+    const saved = localStorage.getItem('animals');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [animalName, setAnimalName] = useState('');
   const [totalHp, setTotalHp] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -15,6 +18,10 @@ export default function ConjuredAnimalsTracker() {
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [showAnimalShortcut, setshowAnimalShortcut] = useState<boolean>(false)
   const [showFeyShortcut, setshowFeyShortcut] = useState<boolean>(false)
+
+  useEffect(() => {
+    localStorage.setItem('animals', JSON.stringify(animals));
+  }, [animals]); 
 
   const addAnimal = () => {
     if (!animalName.trim() || !totalHp.trim()) return;
@@ -45,6 +52,7 @@ export default function ConjuredAnimalsTracker() {
     setSelectedImage('');
   };
 
+
   const addSetAnimal = (animal) => {
     const animalName = animal['name']
     const animalHp = animal['hp']
@@ -56,13 +64,6 @@ export default function ConjuredAnimalsTracker() {
       currentHp: animalHp,
       imageData: animalImage,
     };
-  // todo: continue local storage route 
-    localStorage.setItem('animal', JSON.stringify(newAnimal))
-    const savedData = localStorage.getItem('animal')
-    if (savedData) {
-      const parsedData = JSON.parse(savedData)
-      console.log('parsed', parsedData)
-    }
 
     setAnimals([...animals, newAnimal]);
   };  
@@ -98,7 +99,7 @@ export default function ConjuredAnimalsTracker() {
           : animal
       )
     );
-
+    
     setDamageInputs({ ...damageInputs, [id]: '' });
   };
 
