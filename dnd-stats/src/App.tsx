@@ -40,6 +40,8 @@ export default function ConjuredAnimalsTracker() {
 
   const addAnimal = () => {
     if (!animalName.trim() || !totalHp.trim()) return;
+    let currAnimalCount: number = animals.filter(animal => animal.name === animalName).length + 1
+    console.log('curr', currAnimalCount)
 
     let hp = parseInt(totalHp, 10);
     if (isNaN(hp) || hp <= 0) return;
@@ -54,6 +56,7 @@ export default function ConjuredAnimalsTracker() {
       const newAnimal: ConjuredAnimal = {
         id: uuidv4(),
         name: animalName,
+        count: currAnimalCount,
         maxHp: hp,
         currentHp: hp,
         imageData: selectedImage || undefined,
@@ -61,6 +64,7 @@ export default function ConjuredAnimalsTracker() {
       
       newAnimals.push(newAnimal)
       i++
+      currAnimalCount++
     }
 
     setAnimals(newAnimals)
@@ -77,9 +81,11 @@ export default function ConjuredAnimalsTracker() {
     const animalHp = animal['hp']
     const animalHitDie = animal['hitDie']
     const animalImage = animal['image']
+    const currAnimalCount = animals.filter(animal => animal.name === animalName).length + 1
     const newAnimal: ConjuredAnimal = {
       id: uuidv4(),
       name: animalName,
+      count: currAnimalCount,
       maxHp: isDruid ? animalHp + (2*animalHitDie) : animalHp,
       currentHp: isDruid ? animalHp + (2*animalHitDie) : animalHp,
       imageData: animalImage,

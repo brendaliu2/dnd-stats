@@ -39,7 +39,7 @@ export default function AnimalCard({
         )}
 
         <div className="card-content">
-          <div className="animal-name">{animal.name}</div>
+          <div className="animal-name">{animal.name} {animal.count}</div>
           <div className={`hp-display ${isDead ? 'dead' : ''}`}>
             {animal.currentHp} / {animal.maxHp}
           </div>
