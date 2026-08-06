@@ -12,7 +12,15 @@ export default function CreatureButton({
 }: CreatureButtonProps) {
 const name = animal['name']
 const challengeRating = animal['challengeRating']
-const displayName = `${name} (${challengeRating})`
+let finalRating;
+if (challengeRating === 0.25) {
+  finalRating = '1/4';
+} else if (challengeRating === 0.5) {
+  finalRating = '1/2';
+} else {
+  finalRating = challengeRating
+}
+const displayName = `${name} - CR ${finalRating}`
 
   return (
     <>
